@@ -1,0 +1,20 @@
+[
+  {
+    "starts": "2027-05-15",
+    "days": 2,
+    "seatsLeft": 12,
+    "demo": true
+  },
+  {
+    "starts": "2027-06-12",
+    "days": 3,
+    "seatsLeft": 10,
+    "demo": true
+  },
+  {
+    "starts": "2027-07-03",
+    "days": 2,
+    "seatsLeft": 8,
+    "demo": true
+  }
+]
