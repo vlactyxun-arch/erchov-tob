@@ -15,9 +15,6 @@ jobs:
     permissions:
       contents: read
       pages: read
-    defaults:
-      run:
-        working-directory: tobolsk-landing
     steps:
       - uses: actions/checkout@v6
       - id: pages
@@ -26,7 +23,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: tobolsk-landing/package-lock.json
+          cache-dependency-path: package-lock.json
       - run: npm ci
       - run: npm run build
         env:
@@ -36,7 +33,7 @@ jobs:
           NEXT_TELEMETRY_DISABLED: "1"
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: tobolsk-landing/out
+          path: out
 
   deploy:
     needs: build
