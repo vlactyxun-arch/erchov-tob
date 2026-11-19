@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { publicPath } from "@/lib/public-path";
 import { useEffect, useState } from "react";
 import { m, useReducedMotion } from "framer-motion";
 import { Section } from "@/components/shared/Section";
@@ -29,7 +30,7 @@ export function Locations() {
             {place.image && (
               <div className="place-photo">
                 <Image
-                  src={place.image}
+                  src={publicPath(place.image)}
                   alt={place.imageAlt ?? ""}
                   fill
                   unoptimized

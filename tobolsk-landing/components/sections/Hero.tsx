@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { publicPath } from "@/lib/public-path";
 import { m, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { LeadLink } from "@/components/shared/LeadLink";
@@ -27,7 +28,7 @@ export function Hero() {
             <m.figure className="hero-frame" style={{ clipPath: frame }}>
               <m.div className="hero-image" style={{ scale: zoom }}>
                 <Image
-                  src={heroPhoto.src}
+                  src={publicPath(heroPhoto.src)}
                   alt={heroPhoto.alt}
                   fill
                   priority

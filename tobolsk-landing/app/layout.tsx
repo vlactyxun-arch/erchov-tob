@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Providers } from "@/components/shared/Providers";
 import { heroPhoto } from "@/content/photos";
+import { publicPath } from "@/lib/public-path";
 import "./globals.css";
 const title = "Тобольск глазами Ершова";
 const description =
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   title,
   description,
   ...(site
-    ? { metadataBase: new URL(site), alternates: { canonical: "/" } }
+    ? { metadataBase: new URL(site), alternates: { canonical: site } }
     : { robots: { index: false, follow: false } }),
   openGraph: {
     title,
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
       ? {
           images: [
             {
-              url: heroPhoto.src,
+              url: new URL(publicPath(heroPhoto.src), site),
               width: heroPhoto.width,
               height: heroPhoto.height,
               alt: heroPhoto.alt,
@@ -39,11 +40,12 @@ export default function RootLayout({
       <head>
         <link
           rel="preload"
-          href="/fonts/manrope-cyrillic.woff2"
+          href={publicPath("/fonts/manrope-cyrillic.woff2")}
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        <link rel="stylesheet" href={publicPath("/fonts/manrope.css")} />
       </head>
       <body>
         <Providers>{children}</Providers>

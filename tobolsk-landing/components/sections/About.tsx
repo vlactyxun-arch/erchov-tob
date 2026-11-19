@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { publicPath } from "@/lib/public-path";
 import { Reveal } from "@/components/shared/Reveal";
 import { aboutPhoto } from "@/content/photos";
 export function About() {
@@ -23,7 +24,7 @@ export function About() {
             <figure className="about-photo">
               <div>
                 <Image
-                  src={aboutPhoto.src}
+                  src={publicPath(aboutPhoto.src)}
                   alt={aboutPhoto.alt}
                   fill
                   unoptimized

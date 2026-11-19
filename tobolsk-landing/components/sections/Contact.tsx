@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { leadSchema, type Lead } from "@/lib/lead";
 import { track } from "@/lib/analytics";
 import places from "@/content/locations.json";
+import { publicPath } from "@/lib/public-path";
 
 const defaults: Lead = {
   name: "",
@@ -66,7 +67,7 @@ export function Contact() {
   const send = handleSubmit(async (values) => {
     setStatus(undefined);
     try {
-      const result = await fetch("/api/lead", {
+      const result = await fetch(publicPath("/api/lead"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { publicPath } from "@/lib/public-path";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { galleryPhotos } from "@/content/photos";
@@ -54,7 +55,7 @@ export function Gallery() {
                   }}
                 >
                   <Image
-                    src={item.src}
+                    src={publicPath(item.src)}
                     alt=""
                     fill
                     unoptimized
@@ -85,7 +86,7 @@ export function Gallery() {
             <figure className="gallery-viewer-photo">
               <div className="gallery-stage">
                 <Image
-                  src={photo.src}
+                  src={publicPath(photo.src)}
                   alt={photo.alt}
                   fill
                   unoptimized
