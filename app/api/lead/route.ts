@@ -1,18 +1,37 @@
 import { leadSchema } from "@/lib/lead";
 import locations from "@/content/locations.json";
 
+function leadHeaders(request: Request) {
+  const headers = new Headers({ Vary: "Origin" });
+  const origin = request.headers.get("Origin");
+  if (origin && origin === process.env.LEAD_ALLOWED_ORIGIN) {
+    headers.set("Access-Control-Allow-Origin", origin);
+  }
+  return headers;
+}
+
+export function OPTIONS(request: Request) {
+  const headers = leadHeaders(request);
+  if (!headers.has("Access-Control-Allow-Origin")) {
+    return new Response(null, { status: 403, headers });
+  }
+  headers.set("Access-Control-Allow-Methods", "POST");
+  headers.set("Access-Control-Allow-Headers", "Content-Type");
+  return new Response(null, { status: 204, headers });
+}
+
 export async function POST(request: Request) {
+  const headers = leadHeaders(request);
+  const json = (data: object, status = 200) =>
+    Response.json(data, { status, headers });
   const raw = await request.text();
   if (raw.length > 12000)
-    return Response.json({ error: "Заявка слишком длинная." }, { status: 413 });
+    return json({ error: "Заявка слишком длинная." }, 413);
   let body: unknown;
   try {
     body = JSON.parse(raw);
   } catch {
-    return Response.json(
-      { error: "Проверьте данные заявки." },
-      { status: 400 },
-    );
+    return json({ error: "Проверьте данные заявки." }, 400);
   }
   const parsed = leadSchema.safeParse(body);
   if (
@@ -21,10 +40,7 @@ export async function POST(request: Request) {
       (id) => !locations.some((point) => point.id === id),
     )
   ) {
-    return Response.json(
-      { error: "Проверьте данные заявки." },
-      { status: 400 },
-    );
+    return json({ error: "Проверьте данные заявки." }, 400);
   }
 
   const {
@@ -32,12 +48,9 @@ export async function POST(request: Request) {
     TELEGRAM_CHAT_ID: chatId,
     LEAD_DEMO,
   } = process.env;
-  if (LEAD_DEMO === "true") return Response.json({ demo: true });
+  if (LEAD_DEMO === "true") return json({ demo: true });
   if (!token || !chatId) {
-    return Response.json(
-      { error: "Приём заявок пока не подключён." },
-      { status: 503 },
-    );
+    return json({ error: "Приём заявок пока не подключён." }, 503);
   }
   const lead = parsed.data;
   const details = [
@@ -72,11 +85,11 @@ export async function POST(request: Request) {
       },
     );
     if (!result.ok) throw new Error("Delivery failed");
-    return Response.json({ ok: true });
+    return json({ ok: true });
   } catch {
-    return Response.json(
+    return json(
       { error: "Не удалось отправить заявку. Попробуйте ещё раз." },
-      { status: 502 },
+      502,
     );
   }
 }

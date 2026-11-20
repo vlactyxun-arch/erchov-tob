@@ -66,30 +66,7 @@ export default function Page() {
           <FAQ />
         </div>
         <Reviews />
-        {process.env.NEXT_PUBLIC_GITHUB_PAGES === "true" ? (
-          <section
-            id="contact"
-            className="section"
-            aria-labelledby="contact-title"
-          >
-            <div className="wrap">
-              <p id="contact-title" className="intro">
-                Оставьте номер в форме записи на маршрут. Организаторы свяжутся
-                с вами.
-              </p>
-              <div className="actions">
-                <a
-                  className="button"
-                  href="https://site-16.lemnity.ru/erchov#b1chl0yy"
-                >
-                  Открыть форму записи
-                </a>
-              </div>
-            </div>
-          </section>
-        ) : (
-          <Contact />
-        )}
+        <Contact />
         <section
           id="ershov-story"
           className="section story"

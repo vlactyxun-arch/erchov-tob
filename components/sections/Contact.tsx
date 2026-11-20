@@ -10,6 +10,11 @@ import places from "@/content/locations.json";
 import { publicPath } from "@/lib/public-path";
 import { HorseAppears } from "@/components/shared/HorseMark";
 
+const leadEndpoint =
+  process.env.NEXT_PUBLIC_GITHUB_PAGES === "true"
+    ? process.env.NEXT_PUBLIC_LEAD_ENDPOINT?.trim()
+    : publicPath("/api/lead");
+
 const defaults: Lead = {
   name: "",
   phone: "",
@@ -66,9 +71,10 @@ export function Contact() {
   }, [getValues, setValue]);
 
   const send = handleSubmit(async (values) => {
+    if (!leadEndpoint) return;
     setStatus(undefined);
     try {
-      const result = await fetch(publicPath("/api/lead"), {
+      const result = await fetch(leadEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -76,9 +82,9 @@ export function Contact() {
           locationIds: values.format === "group" ? [] : values.locationIds,
         }),
       });
-      const data = await result.json();
-      if (!result.ok || (!data.ok && !data.demo))
-        throw new Error(data.error ?? "Попробуйте отправить заявку ещё раз.");
+      const data = await result.json().catch(() => null);
+      if (!result.ok || (!data?.ok && !data?.demo))
+        throw new Error(data?.error ?? "Попробуйте отправить заявку ещё раз.");
       if (data.ok)
         track("form_submit", {
           format: values.format,
@@ -115,9 +121,17 @@ export function Contact() {
               Готовые программы доступны для компаний от восьми человек. Для
               меньшей компании выберите индивидуальный формат.
             </p>
+            {!leadEndpoint && (
+              <p id="lead-unavailable">Отправка заявок пока не подключена.</p>
+            )}
             <HorseAppears className="contact-horse" />
           </div>
-          <form onSubmit={send} noValidate className="lead-form">
+          <form
+            onSubmit={send}
+            noValidate
+            className="lead-form"
+            aria-describedby={leadEndpoint ? undefined : "lead-unavailable"}
+          >
             <fieldset>
               <legend>Цель заявки</legend>
               <div className="choices">
@@ -290,7 +304,7 @@ export function Contact() {
                 {errors.consent.message}
               </span>
             )}
-            <Button type="submit" isDisabled={isSubmitting}>
+            <Button type="submit" isDisabled={isSubmitting || !leadEndpoint}>
               {isSubmitting
                 ? "Отправляем…"
                 : intent === "program"
