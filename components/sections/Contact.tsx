@@ -107,8 +107,7 @@ export function Contact() {
       <div className="wrap">
         <div className="contact-layout">
           <div className="contact-copy">
-            <h2 id="contact-title">Обсудим вашу поездку</h2>
-            <p className="intro">
+            <p id="contact-title" className="intro">
               Оставьте номер. Позвоним, чтобы обсудить даты, ночлег и места,
               которые вы хотите увидеть.
             </p>

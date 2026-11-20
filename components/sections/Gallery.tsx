@@ -9,8 +9,8 @@ import { galleryPhotos } from "@/content/photos";
 const browseOrder = [0, 2, 7, 4, 1, 3, 6, 5] as const;
 const photoPlaces = [
   "Тобольск",
-  "Дворец наместника",
   "Музей печати",
+  "Абалак",
   "Тобольск",
   "Косторезная мастерская",
   "Музей забытых звуков",

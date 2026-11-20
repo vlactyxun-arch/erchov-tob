@@ -15,7 +15,11 @@ export function Hero() {
   });
   const zoom = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
   const lift = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.72, 1], [1, 0.42, 0.1]);
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.14, 0.46, 0.62, 1],
+    [1, 0.9, 0.18, 0, 0],
+  );
 
   return (
     <section

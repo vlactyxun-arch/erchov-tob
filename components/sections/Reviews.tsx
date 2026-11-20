@@ -3,149 +3,131 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Section } from "@/components/shared/Section";
+import { publicPath } from "@/lib/public-path";
 
 const examples = [
   {
     trip: "Семейная поездка",
+    portrait: 2,
     text: "После встречи с Ершовым ребёнок весь день спрашивал, где жили герои сказки. Вечером сами открыли «Конька-Горбунка» и перечитали начало.",
   },
   {
     trip: "Поездка с друзьями",
+    portrait: 13,
     text: "В Музее печати мы сначала рассматривали старые газеты, а потом сами поработали за станком. Свой оттиск увезли домой.",
   },
   {
     trip: "Поездка на три дня",
+    portrait: 10,
     text: "Третий день в Абалаке запомнился тишиной и видом на Иртыш. Хорошо, что оставили время спокойно погулять перед дорогой домой.",
   },
   {
     trip: "Поездка с классом",
+    portrait: 4,
     text: "В косторезной мастерской ребята долго выбирали, какой узор сделать. В автобусе сравнивали работы и объясняли друг другу, как у кого получилось.",
   },
 ];
 
-function move(rail: HTMLDivElement, step: -1 | 1) {
-  const first = rail.firstElementChild;
-  const second = first?.nextElementSibling;
-  if (!(first instanceof HTMLElement) || !(second instanceof HTMLElement))
-    return;
+const portraitSheet = publicPath("/images/review-portraits.jpg");
+const sheetColumns = 4;
 
-  const end = rail.scrollWidth - rail.clientWidth;
-  const offset = second.offsetLeft - first.offsetLeft;
-  const from = rail.scrollLeft;
-  const left =
-    step === 1 && from >= end - 2
-      ? 0
-      : step === -1 && from <= 2
-        ? end
-        : from + step * offset;
-
-  rail.scrollTo({
-    left,
-    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      ? "auto"
-      : "smooth",
-  });
+function portraitStyle(portrait: number) {
+  const step = 100 / (sheetColumns - 1);
+  const column = portrait % sheetColumns;
+  const row = Math.floor(portrait / sheetColumns);
+  return {
+    backgroundImage: `url("${portraitSheet}")`,
+    backgroundPosition: `${column * step}% ${row * step}%`,
+    backgroundSize: `${sheetColumns * 100}%`,
+  };
 }
 
 export function Reviews() {
-  const rail = useRef<HTMLDivElement>(null);
-  const slider = useRef<HTMLDivElement>(null);
-  const [playing, setPlaying] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const dialog = useRef<HTMLDialogElement>(null);
+  const dialogTitle = useRef<HTMLHeadingElement>(null);
+  const [selection, setSelection] = useState<number | null>(null);
+  const review = selection === null ? null : examples[selection];
 
   useEffect(() => {
-    const list = rail.current;
-    if (!list) return;
-    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPlaying(!motion.matches);
-    const stopForReducedMotion = () => {
-      if (motion.matches) setPlaying(false);
-    };
-    motion.addEventListener("change", stopForReducedMotion);
-    const observer = new IntersectionObserver(
-      ([entry]) => setVisible(entry.intersectionRatio >= 0.6),
-      { threshold: 0.6 },
-    );
-    observer.observe(list);
-    return () => {
-      motion.removeEventListener("change", stopForReducedMotion);
-      observer.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!playing || !visible) return;
-    const timer = window.setInterval(() => {
-      if (
-        !document.hidden &&
-        rail.current &&
-        !slider.current?.matches(":hover, :focus-within")
-      )
-        move(rail.current, 1);
-    }, 16000);
-    return () => window.clearInterval(timer);
-  }, [playing, visible]);
-
-  function navigate(step: -1 | 1) {
-    setPlaying(false);
-    if (rail.current) move(rail.current, step);
-  }
+    const panel = dialog.current;
+    if (selection !== null && panel && !panel.open) {
+      panel.showModal();
+      dialogTitle.current?.focus({ preventScroll: true });
+      panel.scrollTop = 0;
+    }
+  }, [selection]);
 
   return (
     <Section id="reviews" title="Отзывы посетителей">
-      <div ref={slider}>
-        <div className="reviews-toolbar">
-          <p>Примеры отзывов. Тексты вымышлены.</p>
-          <div className="reviews-controls">
-            <Button
-              className="button-outline"
-              onPress={() => setPlaying(!playing)}
-            >
-              {playing ? "Пауза" : "Автопрокрутка"}
-            </Button>
-            <Button
-              isIconOnly
-              className="button-outline"
-              aria-controls="reviews-rail"
-              aria-label="Предыдущий отзыв"
-              onPress={() => navigate(-1)}
-            >
-              ←
-            </Button>
-            <Button
-              isIconOnly
-              className="button-outline"
-              aria-controls="reviews-rail"
-              aria-label="Следующий отзыв"
-              onPress={() => navigate(1)}
-            >
-              →
-            </Button>
-          </div>
-        </div>
-        <div
-          ref={rail}
-          id="reviews-rail"
-          className="reviews-rail"
-          tabIndex={0}
-          role="group"
-          aria-label="Примеры отзывов о маршруте"
-          data-lenis-prevent-horizontal
-          onPointerDown={() => setPlaying(false)}
-          onKeyDown={(event) => {
-            if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-            event.preventDefault();
-            navigate(event.key === "ArrowLeft" ? -1 : 1);
-          }}
-        >
-          {examples.map((review) => (
-            <figure key={review.trip} className="review">
-              <blockquote>«{review.text}»</blockquote>
-              <figcaption>{review.trip}</figcaption>
-            </figure>
-          ))}
-        </div>
+      <div className="review-cards">
+        {examples.map(({ trip, portrait }, index) => (
+          <Button
+            key={trip}
+            className="review-card"
+            aria-label={`Прочитать отзыв. ${trip}`}
+            aria-haspopup="dialog"
+            aria-controls="review-dialog"
+            onPress={() => setSelection(index)}
+          >
+            <span
+              className="review-card-portrait"
+              style={portraitStyle(portrait)}
+              aria-hidden="true"
+            />
+            <span className="review-card-label">{trip}</span>
+          </Button>
+        ))}
       </div>
+      <p className="review-note">Отзывы вымышлены. Портреты иллюстративные.</p>
+      <dialog
+        id="review-dialog"
+        ref={dialog}
+        className="review-dialog"
+        data-lenis-prevent
+        aria-labelledby="review-dialog-title"
+        aria-describedby="review-dialog-note"
+        onClick={(event) => {
+          if (event.target === event.currentTarget) event.currentTarget.close();
+        }}
+        onClose={() => setSelection(null)}
+        onKeyDown={(event) => {
+          if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+          event.preventDefault();
+          const step = event.key === "ArrowLeft" ? -1 : 1;
+          setSelection((current) =>
+            current === null
+              ? null
+              : (current + step + examples.length) % examples.length,
+          );
+        }}
+      >
+        {review && (
+          <div className="review-dialog-content">
+            <div
+              className="review-dialog-portrait"
+              aria-hidden="true"
+              style={portraitStyle(review.portrait)}
+            />
+            <div className="review-dialog-body">
+              <div className="review-dialog-copy" aria-live="polite">
+                <h3 id="review-dialog-title" ref={dialogTitle} tabIndex={-1}>
+                  {review.trip}
+                </h3>
+                <blockquote>«{review.text}»</blockquote>
+              </div>
+              <p id="review-dialog-note" className="review-note">
+                Вымышленный отзыв
+              </p>
+              <Button
+                className="button-outline"
+                onPress={() => dialog.current?.close()}
+              >
+                Закрыть
+              </Button>
+            </div>
+          </div>
+        )}
+      </dialog>
     </Section>
   );
 }

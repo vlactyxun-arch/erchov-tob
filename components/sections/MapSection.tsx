@@ -40,10 +40,25 @@ export function MapSection() {
   const active = places.find((place) => place.id === point);
   const select = (id: string) =>
     window.dispatchEvent(new CustomEvent("tobolsk:point", { detail: id }));
+  function selectFromList(id: string) {
+    select(id);
+    const map = frame.current;
+    if (!map) return;
+    const { top, bottom } = map.getBoundingClientRect();
+    const offset = parseFloat(getComputedStyle(map).scrollMarginTop) || 0;
+    if (top < offset - 2 || bottom > window.innerHeight) {
+      map.scrollIntoView({
+        block: "start",
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+      });
+    }
+  }
   return (
     <Section id="map" title="Весь маршрут на карте">
       <div className="map-layout">
-        <div ref={frame} data-lenis-prevent>
+        <div ref={frame} className="map-sticky">
           {loaded ? (
             <RouteMap activeId={point} onSelect={select} />
           ) : (
@@ -56,21 +71,22 @@ export function MapSection() {
           )}
         </div>
         <div className="map-list">
-          <div aria-label="Точки маршрута">
+          <ol className="map-stops" aria-label="Точки маршрута">
             {places.map((place, index) => (
-              <button
-                type="button"
-                key={place.id}
-                aria-pressed={place.id === point}
-                onClick={() => select(place.id)}
-              >
-                <span className="map-list-number" aria-hidden="true">
-                  {index + 1}
-                </span>
-                {place.title}
-              </button>
+              <li key={place.id}>
+                <button
+                  type="button"
+                  aria-pressed={place.id === point}
+                  onClick={() => selectFromList(place.id)}
+                >
+                  <span className="map-list-number" aria-hidden="true">
+                    {index + 1}
+                  </span>
+                  {place.title}
+                </button>
+              </li>
             ))}
-          </div>
+          </ol>
           {active && (
             <>
               {active.mapNote && !active.coords && (

@@ -12,9 +12,14 @@ export function SmoothScroll() {
       lenis?.destroy();
       lenis = preference.matches ? undefined : new Lenis({ autoRaf: true });
     };
+    const openDetails = (hash: string) => {
+      const target = document.getElementById(hash.slice(1));
+      if (target instanceof HTMLDetailsElement) target.open = true;
+      return target;
+    };
+    const onHashChange = () => openDetails(location.hash);
     const onAnchorClick = (event: MouseEvent) => {
       if (
-        !lenis ||
         event.defaultPrevented ||
         event.button !== 0 ||
         event.metaKey ||
@@ -37,8 +42,9 @@ export function SmoothScroll() {
         return;
       const href = link.getAttribute("href");
       if (!href?.startsWith("#") || href === "#main") return;
-      const target = document.getElementById(href.slice(1));
+      const target = openDetails(href);
       if (!target) return;
+      if (!lenis) return;
 
       event.preventDefault();
       if (location.hash !== href) history.pushState(null, "", href);
@@ -58,7 +64,9 @@ export function SmoothScroll() {
       });
     };
     configure();
+    onHashChange();
     document.addEventListener("click", onAnchorClick);
+    window.addEventListener("hashchange", onHashChange);
     preference.addEventListener("change", configure);
     const fired = new Set<number>();
     const onScroll = () => {
@@ -77,6 +85,7 @@ export function SmoothScroll() {
     return () => {
       lenis?.destroy();
       document.removeEventListener("click", onAnchorClick);
+      window.removeEventListener("hashchange", onHashChange);
       preference.removeEventListener("change", configure);
       window.removeEventListener("scroll", onScroll);
     };
