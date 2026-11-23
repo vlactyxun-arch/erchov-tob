@@ -41,9 +41,8 @@
 .header-nav a:hover {
   text-decoration: underline;
 }
-.header-booking.button {
+.booking-button.button {
   min-height: 42px;
-  border-radius: 24px;
   padding: 8px 19px;
 }
 .horse-logo {
@@ -246,6 +245,8 @@
   align-items: center;
   min-height: 44px;
   color: var(--chapter-light);
+  font-family: var(--font-ui);
+  font-size: var(--button-font-size);
 }
 .hero .button {
   border-color: var(--chapter-light);
@@ -419,6 +420,8 @@
     grid-column: 3;
     grid-row: 1;
     justify-self: end;
+  }
+  .booking-button.button {
     min-height: 44px;
     padding: 7px 11px;
     font-size: 13px;
@@ -784,4 +787,20 @@ body:has(.review-dialog[open]) {
   border: 1px dashed rgb(249 238 213 / 55%);
   border-radius: 8px;
   font: 600 12px/1.35 var(--font-ui);
+}
+.footer-credit {
+  margin-top: 24px;
+  border-top: 1px solid rgb(249 238 213 / 28%);
+  text-align: end;
+  font: 500 13px/1.35 var(--font-ui);
+}
+.footer-credit a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  min-height: 44px;
+}
+.footer-credit a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }

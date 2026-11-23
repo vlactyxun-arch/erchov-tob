@@ -17,6 +17,7 @@ const leadEndpoint =
 
 const defaults: Lead = {
   name: "",
+  surname: "",
   phone: "",
   people: 8,
   format: "group",
@@ -150,7 +151,7 @@ export function Contact() {
               </div>
             </fieldset>
             <div className="fields">
-              <label>
+              <label className="lead-purpose">
                 Для кого поездка?
                 <select {...register("purpose")}>
                   <option value="self">Для себя</option>
@@ -160,7 +161,7 @@ export function Contact() {
               <label>
                 Имя
                 <input
-                  autoComplete="name"
+                  autoComplete="given-name"
                   {...register("name")}
                   aria-invalid={!!errors.name}
                   aria-describedby={errors.name ? "lead-name-error" : undefined}
@@ -168,6 +169,22 @@ export function Contact() {
                 {errors.name && (
                   <span className="error" id="lead-name-error">
                     {errors.name.message}
+                  </span>
+                )}
+              </label>
+              <label>
+                Фамилия
+                <input
+                  autoComplete="family-name"
+                  {...register("surname")}
+                  aria-invalid={!!errors.surname}
+                  aria-describedby={
+                    errors.surname ? "lead-surname-error" : undefined
+                  }
+                />
+                {errors.surname && (
+                  <span className="error" id="lead-surname-error">
+                    {errors.surname.message}
                   </span>
                 )}
               </label>
@@ -294,17 +311,18 @@ export function Contact() {
                   errors.consent ? "lead-consent-error" : undefined
                 }
               />
-              <span>
-                Согласен на{" "}
-                <a href="#privacy">обработку данных для ответа на заявку</a>
-              </span>
+              <span>Согласен на обработку данных для ответа на заявку</span>
             </label>
             {errors.consent && (
               <span className="error" id="lead-consent-error">
                 {errors.consent.message}
               </span>
             )}
-            <Button type="submit" isDisabled={isSubmitting || !leadEndpoint}>
+            <Button
+              type="submit"
+              className="booking-button"
+              isDisabled={isSubmitting || !leadEndpoint}
+            >
               {isSubmitting
                 ? "Отправляем…"
                 : intent === "program"
@@ -321,14 +339,6 @@ export function Contact() {
             )}
           </form>
         </div>
-        <details id="privacy">
-          <summary>Обработка данных</summary>
-          <p>
-            Имя, телефон и параметры поездки используются для ответа на заявку.
-            Реквизиты организатора, условия обработки и контакты для отзыва
-            согласия публикуются перед запуском приёма заявок.
-          </p>
-        </details>
       </div>
     </section>
   );

@@ -41,3 +41,5 @@ Workflow .github/workflows/pages.yml собирает статическую в�
 Фото кремля для предпросмотра взято со страницы [Тобольского музея-заповедника](https://www.tiamz.ru/home-rus/tobolskij-kreml-muzejnyj-ansambl.html). Программа обновлена по [прежнему сайту маршрута](https://site-16.lemnity.ru/erchov).
 
 Снимки в карточках мест взяты из [альбома пробной поездки](https://disk.yandex.ru/d/adxOkUbSqEfK3Q) и материалов [отеля «Сибирь»](https://hotel-siberia.com/img/9471951c116c5d6b.webp), [Тобольского драмтеатра](https://tobteatr.kto72.ru/upload/iblock/27f/Teatr_7_iz_7_-1-603kh511.jpg) и [каталога «Соборы.ру»](https://sobory.ru/article/?object=00962).
+
+Фотография третьего дня взята с [официального сайта курорта «Алемасова»](https://alemasova.ru/).

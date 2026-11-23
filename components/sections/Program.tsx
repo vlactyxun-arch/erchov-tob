@@ -20,8 +20,9 @@ export function Program() {
     <Section id="program" title="Программа по дням">
       <div className="section-bar">
         <p>
-          На два дня остаёмся в Тобольске. Если есть третий день, едем в Абалак.
-          Время встреч уточним перед поездкой.
+          Первые два дня знакомимся с Тобольском. На третий едем на курорт
+          «Алемасова» и посещаем могилу Ершова. Время встреч уточним перед
+          поездкой.
         </p>
         <div className="segments" aria-label="Продолжительность">
           {(["2", "3"] as const).map((value) => (
@@ -69,13 +70,7 @@ export function Program() {
                 {day.stops.map((stop) => (
                   <li key={stop.title}>
                     <div>
-                      <strong>
-                        {stop.locationId ? (
-                          <a href={"#place-" + stop.locationId}>{stop.title}</a>
-                        ) : (
-                          stop.title
-                        )}
-                      </strong>
+                      <strong>{stop.title}</strong>
                       {stop.optional && (
                         <small className="stop-optional">По желанию</small>
                       )}

@@ -16,8 +16,6 @@ export function Footer() {
           <CookieNotice />
         </div>
         <div>
-          <a href="#privacy">Обработка данных</a>
-          <br />
           <a href="https://www.tiamz.ru/home-rus/tobolskij-kreml-muzejnyj-ansambl.html">
             Фото кремля · Тобольский музей-заповедник
           </a>
@@ -38,6 +36,11 @@ export function Footer() {
           <span>Логотип партнёра</span>
         </div>
       </section>
+      <p className="wrap footer-credit">
+        <a href="https://lemmus.studio/">
+          Сделано в <strong>lemmus</strong>
+        </a>
+      </p>
     </footer>
   );
 }

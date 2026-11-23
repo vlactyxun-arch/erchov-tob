@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     lead.intent === "callback" ? "Обратный звонок" : "Запрос программы",
     lead.purpose &&
       (lead.purpose === "gift" ? "Поездка в подарок" : "Поездка для себя"),
-    lead.name,
+    [lead.name, lead.surname].filter(Boolean).join(" "),
     lead.phone,
     (lead.format === "group" ? "Группа" : "Индивидуально") +
       " · " +

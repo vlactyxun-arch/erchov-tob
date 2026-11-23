@@ -7,16 +7,6 @@ import { Button } from "@/components/ui/button";
 import { galleryPhotos } from "@/content/photos";
 
 const browseOrder = [0, 2, 7, 4, 1, 3, 6, 5] as const;
-const photoPlaces = [
-  "Тобольск",
-  "Музей печати",
-  "Абалак",
-  "Тобольск",
-  "Косторезная мастерская",
-  "Музей забытых звуков",
-  "Абалак",
-  "Абалак",
-];
 
 export function Gallery() {
   const [active, setActive] = useState(0);
@@ -50,7 +40,7 @@ export function Gallery() {
             <Button
               key={item.src}
               className="gallery-preview"
-              aria-label={`Открыть фото. ${photoPlaces[index]}. ${item.caption}`}
+              aria-label={`Открыть фото. ${item.place}. ${item.caption}`}
               onPress={() => {
                 setActive(position);
                 setOpen(true);
@@ -64,7 +54,7 @@ export function Gallery() {
                 sizes="(max-width: 720px) 95vw, 48vw"
               />
               <span className="gallery-tile-caption" aria-hidden="true">
-                <span>{photoPlaces[index]}</span>
+                <span>{item.place}</span>
                 <strong>{item.caption}</strong>
               </span>
             </Button>

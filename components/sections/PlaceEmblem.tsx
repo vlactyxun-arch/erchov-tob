@@ -96,29 +96,20 @@ const motifs: Record<string, ReactNode> = {
       />
     </>
   ),
-  monastery: (
+  alemasova: (
     <>
-      <path d="M39 109h82v7H39Zm12 0V84h30v25Zm36 0V72h23v37ZM54 83v-7h23v7Zm35-12V61h19v10Zm1-10c0-5 8-10 8-16 0 6 9 11 9 16Z" />
-      <path d="M55 76c0-6 10-10 10-15 0 5 11 9 11 15Z" />
-      <path className="seal-line" d="M98 41v9m-4-6h8M65 57v8m-3-5h6" />
+      <path d="m36 114 37-50 21 26 9-12 22 36H36Z" />
+      <path className="seal-paper" d="m59 83 14-19 15 19-8-3-7 5-6-5Z" />
       <path
-        className="seal-paper"
-        d="M62 109V95a4 4 0 0 1 8 0v14Zm33-24v-6h5v6Z"
+        className="seal-ochre-line"
+        d="M101 94c-13 4-34 6-32 11 1 3 13 4 18 9"
       />
     </>
   ),
-  abalak: (
+  "ershov-grave": (
     <>
-      <path d="M45 110V93l4-6 4 6v17h5V85l4-6 4 6v25h28V85l4-6 4 6v25h5V93l4-6 4 6v17h6v6H39v-6Z" />
-      <path d="m63 80 17-21 17 21h-6v31H69V80Z" />
-      <path
-        className="seal-paper"
-        d="M75 110V95a5 5 0 0 1 10 0v15Zm3-25v-5h4v5Z"
-      />
-      <path
-        className="seal-ochre-line"
-        d="m69 77 11-13 11 13m-41 35h20m20 0h20"
-      />
+      <path d="M49 111h62v6H49Zm9-5h44v5H58Zm8 0V73a14 14 0 0 1 28 0v33Z" />
+      <path className="seal-ochre-line" d="M74 78h12m-12 7h12m-12 7h8" />
     </>
   ),
 };

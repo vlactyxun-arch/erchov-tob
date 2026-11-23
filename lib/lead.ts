@@ -7,6 +7,11 @@ export type TripPurpose = z.infer<typeof tripPurpose>;
 export const leadSchema = z
   .object({
     name: z.string().trim().min(2, "Укажите имя").max(80),
+    surname: z
+      .string()
+      .trim()
+      .max(80, "Сократите фамилию до 80 символов")
+      .optional(),
     phone: z
       .string()
       .trim()

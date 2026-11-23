@@ -141,6 +141,8 @@ h3 {
   );
   --section-space: clamp(40px, 6vw, 80px);
   --section-gap: clamp(16px, 2.1vw, 24px);
+  --button-radius: 24px;
+  --button-font-size: 15px;
 }
 .wrap {
   width: var(--page-width);
@@ -179,9 +181,9 @@ h3 {
   color: var(--surface);
   text-decoration: none;
   border: 1px solid var(--accent);
-  border-radius: 4px;
+  border-radius: var(--button-radius);
   font-family: var(--font-ui);
-  font-size: 15px;
+  font-size: var(--button-font-size);
   font-weight: 700;
   text-align: center;
   white-space: normal;
@@ -336,7 +338,7 @@ blockquote {
   padding: 9px 12px;
   min-height: 44px;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: var(--button-radius);
   color: var(--ink);
   background: var(--surface);
 }
@@ -413,10 +415,6 @@ blockquote {
   height: 9px;
   border-radius: 50%;
   background: var(--gold);
-}
-.timeline a {
-  text-decoration: underline;
-  text-decoration-color: var(--line);
 }
 .stop-optional {
   display: block;
@@ -590,6 +588,9 @@ blockquote {
   color: var(--ink);
   display: grid;
   place-items: center;
+}
+button.map-placeholder {
+  border-radius: var(--button-radius);
 }
 .map-list button {
   font-size: 14px;
@@ -810,6 +811,9 @@ blockquote {
 .fields label {
   min-width: 0;
 }
+.lead-purpose {
+  grid-column: 1 / -1;
+}
 label,
 legend {
   font-weight: 700;
@@ -856,9 +860,6 @@ legend {
 .choices label {
   min-height: 32px;
   padding: 4px;
-}
-.consent a {
-  text-decoration: underline;
 }
 .lead-form > button {
   justify-self: start;

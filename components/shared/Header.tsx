@@ -88,7 +88,7 @@ export function Header() {
             <a href="#schedule">Даты</a>
             <a href="#pricing">Стоимость</a>
           </nav>
-          <LeadLink source="header" className="header-booking">
+          <LeadLink source="header" className="header-booking booking-button">
             Записаться
           </LeadLink>
         </div>
