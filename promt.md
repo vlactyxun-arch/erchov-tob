@@ -253,4 +253,4 @@ zip -r tobolsk-landing.zip tobolsk-landing -x "*/node_modules/*" "*.DS_Store" "*
 3. Путь к ZIP
 4. Открытые вопросы к заказчику
 
-Начинай.
+Начинай. codex
