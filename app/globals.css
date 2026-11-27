@@ -141,6 +141,7 @@ h3 {
   );
   --section-space: clamp(40px, 6vw, 80px);
   --section-gap: clamp(16px, 2.1vw, 24px);
+  --grid-gap: clamp(12px, 2vw, 24px);
   --button-radius: 24px;
   --button-font-size: 15px;
 }
@@ -217,6 +218,7 @@ h3 {
   inset-inline: 0;
   bottom: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 5px;
   padding: clamp(12px, 2.35vw, 32px);
   padding-top: clamp(34px, 6vw, 85px);
@@ -229,6 +231,7 @@ h3 {
   color: var(--chapter-light);
   text-align: left;
   white-space: normal;
+  overflow-wrap: anywhere;
 }
 .gallery-tile-caption > span {
   font: 750 clamp(10px, 1vw, 12px)/1.3 var(--font-ui);
@@ -295,7 +298,7 @@ body:has(.gallery-dialog[open]) {
 .map-layout {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 32px;
+  gap: clamp(16px, 3vw, 32px);
   align-items: start;
 }
 .intro {
@@ -346,16 +349,19 @@ blockquote {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--grid-gap);
   margin-top: 16px;
+}
+.section-bar > p {
+  max-width: 64ch;
 }
 .day-grid,
 .price-grid,
 .info-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  margin-block: 24px;
+  gap: var(--grid-gap);
+  margin-block: var(--section-gap);
 }
 .day-grid:has(> :nth-child(2):last-child) {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -415,6 +421,19 @@ blockquote {
 }
 .timeline p {
   font-size: 16px;
+}
+@media (min-width: 601px) {
+  .day {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+    row-gap: 16px;
+  }
+  .day-heading,
+  .day-photo,
+  .timeline {
+    margin-block: 0;
+  }
 }
 .places-header {
   display: flex;
@@ -901,18 +920,32 @@ summary {
 .skip:focus {
   transform: none;
 }
-@media (max-width: 1000px) {
-  .day-grid,
+@media (min-width: 601px) and (max-width: 1000px) {
+  .day-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .day-grid > .day:nth-child(3):last-child {
+    grid-column: 1 / -1;
+    width: calc((100% - var(--grid-gap)) / 2);
+    justify-self: center;
+  }
+}
+@media (min-width: 601px) and (max-width: 800px) {
   .price-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .price-grid > .price:nth-child(3):last-child {
+    grid-column: 1 / -1;
+    width: calc((100% - var(--grid-gap)) / 2);
+    justify-self: center;
   }
 }
 @media (max-width: 800px) {
   .split,
   .map-layout,
   .contact-layout {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--grid-gap);
   }
 }
 @media (max-width: 600px) {
@@ -922,7 +955,7 @@ summary {
   .info-grid,
   .date-list li {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: var(--grid-gap);
   }
   .date-list .button {
     justify-self: start;

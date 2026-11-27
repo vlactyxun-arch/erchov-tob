@@ -1,0 +1,61 @@
+[
+  {
+    "name": "Ресторанная группа «Дольче Вита»",
+    "url": "https://dv-rest.ru/",
+    "logo": {
+      "src": "/images/partners/dolce-vita.png",
+      "width": 1522,
+      "height": 1214
+    }
+  },
+  {
+    "name": "Тобольская косторезная фабрика",
+    "url": "https://tfki.ru/",
+    "logo": {
+      "src": "/images/partners/tobolsk-carving-factory.png",
+      "width": 2358,
+      "height": 1847
+    }
+  },
+  {
+    "name": "Отель-музей «Сибирь»",
+    "url": "https://hotel-siberia.com/",
+    "logo": {
+      "src": "/images/partners/hotel-siberia.jpg",
+      "width": 1280,
+      "height": 1261
+    }
+  },
+  {
+    "name": "Тобольская типография",
+    "url": "https://yandex.ru/maps/org/tobolskaya_tipografiya/157023481741/",
+    "logo": null
+  },
+  {
+    "name": "Курорт «Алемасова»",
+    "url": "https://alemasova.ru/",
+    "logo": {
+      "src": "/images/partners/alemasova.svg",
+      "width": 282,
+      "height": 229
+    }
+  },
+  {
+    "name": "ТК «Спутник-Тобольск»",
+    "url": "https://sputnik-tobolsk.ru/",
+    "logo": {
+      "src": "/images/partners/sputnik-tobolsk.svg",
+      "width": 677,
+      "height": 511
+    }
+  },
+  {
+    "name": "Администрация города Тобольска",
+    "url": "https://admtobolsk.ru/",
+    "logo": {
+      "src": "/images/partners/tobolsk-administration.svg",
+      "width": 193,
+      "height": 54
+    }
+  }
+]

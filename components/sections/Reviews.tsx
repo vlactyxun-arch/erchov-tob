@@ -5,33 +5,45 @@ import { Button } from "@/components/ui/button";
 import { Section } from "@/components/shared/Section";
 import { publicPath } from "@/lib/public-path";
 
-const examples = [
+const reviews = [
   {
-    trip: "Семейная поездка",
-    portrait: 2,
-    text: "После встречи с Ершовым ребёнок весь день спрашивал, где жили герои сказки. Вечером сами открыли «Конька-Горбунка» и перечитали начало.",
+    label: "Евгения Р. · Ижевск",
+    portrait: "/images/review-evgeniya-rudina.jpg",
+    example: false,
+    text: "Программа насыщенная, раскрывает жизнь и путь самого Ершова с разных сторон, погружает в его творчество. После каждой локации остается небольшой сувенир или какое-то памятное ощущение. Очень крутая идея с паспортом туриста! Путешествовали вчетвером: я и трое детей. Нам очень понравилось!",
   },
   {
-    trip: "Поездка с друзьями",
-    portrait: 13,
-    text: "В Музее печати мы сначала рассматривали старые газеты, а потом сами поработали за станком. Свой оттиск увезли домой.",
+    label: "Поездка с детьми",
+    portrait: 12,
+    example: true,
+    text: "Думала, что дети устанут уже в первом музее. А в сквере Ершова они так увлеклись поиском героев сказки, что потом ещё за обедом обсуждали Рыбу-Кита. Мне больше всего запомнился Дворец наместника. После прогулки с гидом гораздо легче было представить, каким Ершов видел Тобольск.",
   },
   {
-    trip: "Поездка на три дня",
-    portrait: 10,
-    text: "На третий день пошли пешком к старой сосне. После двух дней в городе было здорово сменить обстановку и спокойно пройтись по лесу.",
+    label: "Поездка с друзьями",
+    portrait: 1,
+    example: true,
+    text: "Поехали с друзьями на два дня. В Музее печати разглядывали наборные литеры и пытались представить, сколько времени уходило на одну страницу. А на занятии по резьбе сами попробовали вывести узор. После этого я совсем по-другому смотрел на работы мастеров.",
   },
   {
-    trip: "Поездка с классом",
-    portrait: 4,
-    text: "В косторезной мастерской ребята долго выбирали, какой узор сделать. В автобусе сравнивали работы и объясняли друг другу, как у кого получилось.",
+    label: "Поездка на три дня",
+    portrait: 8,
+    example: true,
+    text: "После двух дней в городе было здорово пройтись по лесу в парке «Алемасова». Дошли до реликтовой сосны, а по возвращении в Тобольск побывали у могилы Ершова. По дороге вспоминали, что рассказывали о нём в первый день. Получилось очень тихое и тёплое завершение поездки.",
   },
 ];
 
 const portraitSheet = publicPath("/images/review-portraits.jpg");
 const sheetColumns = 4;
 
-function portraitStyle(portrait: number) {
+function portraitStyle(portrait: number | string) {
+  if (typeof portrait === "string") {
+    return {
+      backgroundImage: `url("${publicPath(portrait)}")`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+    };
+  }
+
   const step = 100 / (sheetColumns - 1);
   const column = portrait % sheetColumns;
   const row = Math.floor(portrait / sheetColumns);
@@ -46,7 +58,7 @@ export function Reviews() {
   const dialog = useRef<HTMLDialogElement>(null);
   const dialogTitle = useRef<HTMLHeadingElement>(null);
   const [selection, setSelection] = useState<number | null>(null);
-  const review = selection === null ? null : examples[selection];
+  const review = selection === null ? null : reviews[selection];
 
   useEffect(() => {
     const panel = dialog.current;
@@ -60,11 +72,11 @@ export function Reviews() {
   return (
     <Section id="reviews" title="Отзывы посетителей">
       <div className="review-cards">
-        {examples.map(({ trip, portrait }, index) => (
+        {reviews.map(({ label, portrait, example }, index) => (
           <Button
-            key={trip}
+            key={label}
             className="review-card"
-            aria-label={`Прочитать отзыв. ${trip}`}
+            aria-label={`${example ? "Пример отзыва" : "Прочитать отзыв"}. ${label}`}
             aria-haspopup="dialog"
             aria-controls="review-dialog"
             onPress={() => setSelection(index)}
@@ -74,18 +86,22 @@ export function Reviews() {
               style={portraitStyle(portrait)}
               aria-hidden="true"
             />
-            <span className="review-card-label">{trip}</span>
+            <span className="review-card-label">
+              {example && (
+                <span className="review-card-example">Пример отзыва</span>
+              )}
+              {label}
+            </span>
           </Button>
         ))}
       </div>
-      <p className="review-note">Отзывы вымышлены. Портреты иллюстративные.</p>
       <dialog
         id="review-dialog"
         ref={dialog}
         className="review-dialog"
         data-lenis-prevent
         aria-labelledby="review-dialog-title"
-        aria-describedby="review-dialog-note"
+        aria-describedby="review-dialog-quote"
         onClick={(event) => {
           if (event.target === event.currentTarget) event.currentTarget.close();
         }}
@@ -97,7 +113,7 @@ export function Reviews() {
           setSelection((current) =>
             current === null
               ? null
-              : (current + step + examples.length) % examples.length,
+              : (current + step + reviews.length) % reviews.length,
           );
         }}
       >
@@ -111,13 +127,15 @@ export function Reviews() {
             <div className="review-dialog-body">
               <div className="review-dialog-copy" aria-live="polite">
                 <h3 id="review-dialog-title" ref={dialogTitle} tabIndex={-1}>
-                  {review.trip}
+                  {review.label}
                 </h3>
-                <blockquote>«{review.text}»</blockquote>
+                <blockquote id="review-dialog-quote">«{review.text}»</blockquote>
               </div>
-              <p id="review-dialog-note" className="review-note">
-                Вымышленный отзыв
-              </p>
+              {review.example && (
+                <p className="review-note">
+                  Вымышленный отзыв. Иллюстративный портрет.
+                </p>
+              )}
               <Button
                 className="button-outline"
                 onPress={() => dialog.current?.close()}

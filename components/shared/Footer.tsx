@@ -1,3 +1,6 @@
+import Image from "next/image";
+import partners from "@/content/partners.json";
+import { publicPath } from "@/lib/public-path";
 import { CookieNotice } from "./CookieNotice";
 
 export function Footer() {
@@ -48,11 +51,33 @@ export function Footer() {
         aria-labelledby="partners-title"
       >
         <h2 id="partners-title">Партнёры маршрута</h2>
-        <div className="partner-logos">
-          <span>Логотип партнёра</span>
-          <span>Логотип партнёра</span>
-          <span>Логотип партнёра</span>
-        </div>
+        <ul className="footer-partner-list" role="list">
+          {partners.map(({ name, url, logo }) => (
+            <li key={url}>
+              <a href={url} className="footer-partner-link">
+                <span className="footer-partner-logo">
+                  {logo ? (
+                    <Image
+                      src={publicPath(logo.src)}
+                      alt=""
+                      width={logo.width}
+                      height={logo.height}
+                      unoptimized
+                    />
+                  ) : (
+                    <span className="footer-partner-type" aria-hidden="true">
+                      Аа
+                    </span>
+                  )}
+                </span>
+                <span className="footer-partner-name">{name}</span>
+                <span className="footer-partner-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </section>
       <div className="wrap footer-bottom">
         <CookieNotice />

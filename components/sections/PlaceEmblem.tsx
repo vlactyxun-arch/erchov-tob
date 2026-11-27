@@ -62,15 +62,18 @@ const motifs: Record<string, ReactNode> = {
       <path className="seal-ochre-line" d="M71 101h16m-18 5h16" />
     </>
   ),
-  sounds: (
+  "ershov-square": (
     <>
-      <path d="M63 94c-17-1-20 20-6 24 9 3 21-5 22-14 1-5-1-7 2-10l19-22-5-6-21 20c-4 4-6 2-11 8Z" />
-      <path
-        className="seal-line"
-        d="m95 68 4-6 5 5-5 6m10 11c6 4 6 12 0 16m7-21c9 7 9 19 0 26"
-      />
-      <circle className="seal-paper" cx="66" cy="103" r="4" />
-      <path className="seal-ochre-line" d="m54 112 10-10 30-30" />
+      <path d="M46 94c11-15 32-19 52-8 6 3 11 6 17 6l9-8c0 8-3 15-10 17-14 17-42 20-59 6-6-5-9-9-9-13Z" />
+      <circle className="seal-paper" cx="59" cy="95" r="2.5" />
+      <path className="seal-ochre-line" d="M68 77c-5-6-8-6-12-6m12 6c4-7 9-9 14-10" />
+    </>
+  ),
+  "lower-town": (
+    <>
+      <path d="M38 91l17-14 18 14h-4v19H43V91Zm39-1 22-18 22 18h-5v20H82V90Z" />
+      <path className="seal-paper" d="M51 94h8v7h-8Zm41 0h6v7h-6Zm9 0h6v7h-6Z" />
+      <path className="seal-ochre-line" d="M39 117h82" />
     </>
   ),
   theatre: (
@@ -141,7 +144,7 @@ export function PlaceEmblem({ id }: { id: string }) {
         className="seal-blue"
         d="M28 88c21-4 22-13 40-10 10 2 22 2 29-3 13-9 24-6 36 0-17-3-23 4-35 9-12 5-20 3-30 0-11-3-25 5-40 4Z"
       />
-      {motifs[id]}
+      {motifs[id === "ershov-cafe" ? "dinner" : id]}
       <path
         className="seal-gold"
         d="m80 127 2 4 4 2-4 2-2 4-2-4-4-2 4-2Zm-47-27 1.5 3.5L38 105l-3.5 1.5L33 110l-1.5-3.5L28 105l3.5-1.5Zm94 0 1.5 3.5 3.5 1.5-3.5 1.5-1.5 3.5-1.5-3.5-3.5-1.5 3.5-1.5Z"

@@ -1,6 +1,42 @@
 import { Section } from "@/components/shared/Section";
 import { LeadLink } from "@/components/shared/LeadLink";
 import tariffs from "@/content/tariffs.json";
+
+const groupInclusions = [
+  {
+    title: "Встреча и проводы",
+    detail: "Встречаем группу в начале поездки и провожаем после программы.",
+  },
+  {
+    title: "Проживание",
+    detail: "На выбор хостел, гостиница «Тобол» или «Сибирь».",
+  },
+  {
+    title: "Транспорт",
+    detail: "Переезды между остановками по программе.",
+  },
+  {
+    title: "Экскурсии",
+    detail: "В сопровождении аккредитованного экскурсовода.",
+  },
+  {
+    title: "Билеты в музеи",
+    detail: "Входные билеты на посещения по программе.",
+  },
+  {
+    title: "Мастер-классы",
+    detail: "Резьба по кости и печать открытки на старинном станке.",
+  },
+  {
+    title: "Обеды",
+    detail: "Три обеда по специальному меню в трёхдневной программе.",
+  },
+  {
+    title: "Паспорт путешественника",
+    detail: "Паспорт-блокнот и ручка на память о поездке.",
+  },
+];
+
 export function Pricing() {
   return (
     <Section id="pricing" title="Сколько стоит поездка">
@@ -30,14 +66,28 @@ export function Pricing() {
           </article>
         ))}
       </div>
-      <div className="note">
-        <h3>Что входит в стоимость</h3>
-        <p>
-          Цена зависит от числа дней и размещения. При записи уточним, какие
-          экскурсии, билеты, мастер-классы, переезды и приёмы пищи входят в вашу
-          программу. Спектакль и другие остановки по желанию обсудим отдельно.
+      <section
+        className="price-inclusions"
+        aria-labelledby="price-inclusions-title"
+      >
+        <h3 id="price-inclusions-title">Что входит в стоимость</h3>
+        <ul>
+          {groupInclusions.map(({ title, detail }) => (
+            <li key={title}>
+              <span className="price-inclusion-check" aria-hidden="true">
+                ✓
+              </span>
+              <div>
+                <strong>{title}</strong>
+                <p>{detail}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p className="price-inclusions-note">
+          Итоговая стоимость зависит от числа дней и размещения.
         </p>
-      </div>
+      </section>
     </Section>
   );
 }
